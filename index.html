@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>30 noites na masmorra</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <main>
+        <div id="tela">
+            <section id="tela-escolher-nome">
+                <span>Como devemos te chamar?</span>
+                <input type="text" name="nome" id="nome" maxlength="10">
+                <button id="avanca-tela1">Continuar</button>
+            </section>
+
+            <section id="tela-escolher-classe">
+                <span>A qual classe pertence?</span>
+                <ul id="tela-escolher-classe-lista">
+                    <li class="tela-escolher-classe-botao">Guerreiro</li>
+                    <li class="tela-escolher-classe-botao">Mago</li>
+                    <li class="tela-escolher-classe-botao">Arqueiro</li>
+                </ul>
+                <button id="avanca-tela2">Continuar</button>
+            </section>
+
+            <section id="tela-jogo">
+                <header id="cabecalho-jogo">
+                    <h2 id="numero-dias">30 dias</h2>
+                    <h2 id="numero-inimigos">5/5</h2>
+                </header>
+
+                <main id="principal-jogo">
+                    <section id="inimigo">
+                        <h3 class="nome-personagem" id="nome-inimigo">Ladrão</h3>
+                        <div class="barra-de-vida" id="barra-de-vida-inimigo">
+
+                        </div>
+                        <img src="images/cavaleiro.png" alt="Imagem de um inimigo" class="imagem-personagem">
+                    </section>
+                    <section id="jogador">
+                        <h3 class="nome-personagem" id="nome-jogador"></h3>
+                        <div class="barra-de-vida" id="barra-de-vida-jogador">
+
+                        </div>
+                        <img src="images/cavaleiro.png" alt="Imagem do seu personagem" class="imagem-personagem">
+                    </section>
+                </main>
+
+                <footer id="rodape-jogo">
+                    <ul id="rodape-jogo-lista">
+                        <li class="rodape-jogo-botao">Combate</li>
+                        <li class="rodape-jogo-botao">Feitiços</li>
+                        <li class="rodape-jogo-botao">Bolsa</li>
+                        <li class="rodape-jogo-botao">Fugir</li>
+                    </ul>
+                </footer>
+            </section>
+
+            <section id="tela-dorme">
+                <span>Você está dormindo! <br> Com que será que sonhas?</span>
+            </section>
+        </div>
+    </main>
+
+</body>
+
+</html>
