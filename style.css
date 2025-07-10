@@ -4,6 +4,7 @@
     /* Cores */
     --cor-principal: #FFF;
     --cor-secundaria: #000;
+    --cor-terciaria: #bebaba;
     /* Fontes */
     --fonte-principal: "Silkscreen", sans-serif;
     /* Configurações */
@@ -49,25 +50,28 @@ section {
     height: 100%;
 }
 
-#tela-escolher-nome {
+#tela-jogo {
     display: flex;
 }
 
 #tela-escolher-nome,
-#tela-escolher-classe {
+#tela-escolher-classe,
+#tela-jogo {
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
     position: relative;
+    padding-top: 2rem;
 }
 
 #tela-escolher-nome::before,
-#tela-escolher-classe::before {
+#tela-escolher-classe::before,
+#tela-jogo::before {
     content: "";
     position: absolute;
     inset: 0;
     background: url(images/fundo-rpg.jpg) center / cover no-repeat;
-    filter: blur(1px);
+    filter: blur(3px);
     z-index: -1;
 }
 
@@ -112,4 +116,56 @@ section {
 
 .tela-escolher-classe-botao.selecionado {
     border-color: yellow;
+}
+
+#cabecalho-jogo,
+#rodape-jogo {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+    height: 25%;
+}
+
+#cabecalho-jogo {
+    align-self: flex-end;
+}
+
+#numero-dias,
+#numero-inimigos {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+#principal-jogo {
+    width: 100%;
+    height: 50%;
+}
+
+#rodape-jogo-lista {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-self: flex-end;
+}
+
+.rodape-jogo-botao {
+    width: calc(50% - 4px);
+    height: 60px;
+    border: 2px solid var(--cor-secundaria);
+    line-height: 60px;
+    background-color: var(--cor-terciaria);
+    cursor: pointer;
+}
+
+#inimigo,
+#jogador {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.imagem-personagem {
+    width: 100px;
 }
