@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap');
+
+:root {
+    /* Cores */
+    --cor-principal: #FFF;
+    --cor-secundaria: #000;
+    /* Fontes */
+    --fonte-principal: "Silkscreen", sans-serif;
+    /* Configurações */
+    font-size: 16px;
+}
+
+html {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--fonte-principal);
+    background-color: var(--cor-principal);
+    color: var(--cor-secundaria);
+}
+
+button,
+input {
+    font-family: var(--fonte-principal);
+    text-align: center;
+    outline: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+#tela {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: min(100%, 400px);
+    height: 100dvh;
+    margin: auto;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+section {
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+
+#tela-escolher-nome {
+    display: flex;
+}
+
+#tela-escolher-nome,
+#tela-escolher-classe {
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    position: relative;
+}
+
+#tela-escolher-nome::before,
+#tela-escolher-classe::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url(images/fundo-rpg.jpg) center / cover no-repeat;
+    filter: blur(1px);
+    z-index: -1;
+}
+
+#tela-escolher-nome span,
+#tela-escolher-classe span {
+    font-size: 2rem;
+}
+
+#nome,
+.avanca-tela {
+    width: min(90%, 350px);
+    font-size: 1.5rem;
+}
+
+#nome {
+    height: 50px;
+}
+
+.avanca-tela {
+    height: 40px;
+    border: 1px solid transparent;
+    pointer-events: none;
+}
+
+#tela-escolher-classe-lista {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.tela-escolher-classe-botao {
+    width: 150px;
+    height: 30px;
+    font-size: 1.3rem;
+    line-height: 30px;
+    background-color: var(--cor-principal);
+    border: 5px solid transparent;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.tela-escolher-classe-botao.selecionado {
+    border-color: yellow;
+}
