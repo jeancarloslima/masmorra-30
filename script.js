@@ -7,6 +7,7 @@ const botoesEscolherClasse = document.querySelectorAll(".tela-escolher-classe-bo
 const botaoAvancaTela2 = document.getElementById("avanca-tela2");
 const containerInimigo = document.getElementById("inimigo");
 const nomeJogadorCampo = document.getElementById("nome-jogador");
+const vidaJogadorRestante = document.getElementById("vida-restante-jogador");
 const vidaJogadorCampo = document.getElementById("vida-jogador");
 const rodapeMenu = document.getElementById("rodape-jogo-menu");
 const rodapeMenuCombate = document.getElementById("rodape-jogo-combate");
@@ -112,7 +113,8 @@ function constroiJogador() {
         },
 
         atualizar: function () {
-            vidaJogadorCampo.textContent = `${jogador.vidaAtual} / ${jogador.vidaTotal}`;
+            vidaJogadorCampo.textContent = `${this.vidaAtual} / ${this.vidaTotal}`;
+            vidaJogadorRestante.style.width = `${((this.vidaAtual / this.vidaTotal) * 10) * 20}px`;
         }
     }
 
@@ -147,7 +149,10 @@ function Inimigo(nome, minVida, maxVida, minDano, maxDano) {
 
     this.atualizar = function () {
         const vidaInimigoCampo = document.getElementById("vida-inimigo");
+        const vidaInimigoRestatne = document.getElementById("vida-restante-inimigo");
+
         vidaInimigoCampo.textContent = `${this.vidaAtual} / ${this.vidaTotal}`;
+        vidaInimigoRestatne.style.width = `${((this.vidaAtual / this.vidaTotal) * 10) * 20}px`;
     }
 }
 
@@ -168,6 +173,7 @@ function constroiInimigo() {
 
     const vidaRestante = document.createElement("div");
     vidaRestante.classList.add("vida-restante");
+    vidaRestante.id = "vida-restante-inimigo";
 
     const numeroVidaElemento = document.createElement("span");
     numeroVidaElemento.classList.add("numero-vida");
