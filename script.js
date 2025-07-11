@@ -88,13 +88,14 @@ botoesCombate.forEach((botao) => {
     })
 })
 
+constroiJogador();
 function constroiJogador() {
     jogador = {
         nome,
         classe,
         vidaTotal: 5,
         vidaAtual: 5,
-        forca: 5,
+        forca: 7,
         magia: 5,
         velocidade: 5,
         armadura: 5,
@@ -103,25 +104,50 @@ function constroiJogador() {
             switch (golpe) {
                 case "espadada":
                     inimigo.vidaAtual -= (jogador.forca - inimigo.armadura);
-                break;
+
+                    inimigo.atualizar();
+                    inimigo.combate();
+                    break;
             }
+        },
+
+        atualizar: function () {
+            vidaJogadorCampo.textContent = `${jogador.vidaAtual} / ${jogador.vidaTotal}`;
         }
     }
 
     nomeJogadorCampo.textContent = nome;
-    vidaJogadorCampo.textContent = `${jogador.vidaAtual} / ${jogador.vidaTotal}`
+    jogador.atualizar();
 }
 
 function Inimigo(nome, minVida, maxVida, minDano, maxDano) {
     this.nome = nome;
     this.vidaTotal = 5;
     this.vidaAtual = 5;
-    this.forca = 5;
+    this.forca = 6;
     this.magia = 5;
     this.velocidade = 5;
     this.armadura = 5;
+
     this.constroi = function () {
         constroiInimigo();
+    }
+
+    this.combate = function () {
+        let golpe = "espadada";
+
+        switch (golpe) {
+            case "espadada":
+                jogador.vidaAtual -= (inimigo.forca - jogador.armadura);
+
+                jogador.atualizar();
+                break;
+        }
+    }
+
+    this.atualizar = function () {
+        const vidaInimigoCampo = document.getElementById("vida-inimigo");
+        vidaInimigoCampo.textContent = `${this.vidaAtual} / ${this.vidaTotal}`;
     }
 }
 
