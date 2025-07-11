@@ -187,14 +187,24 @@ section {
     justify-content: center;
 }
 
-#rodape-jogo-lista {
+#rodape-jogo-menu,
+#rodape-jogo-combate,
+#rodape-jogo-feiticos,
+#rodape-jogo-bolsa {
     width: 100%;
-    display: flex;
+    display: none;
     flex-wrap: wrap;
     align-self: flex-end;
 }
 
-.rodape-jogo-botao {
+#rodape-jogo-menu {
+    display: flex;
+}
+
+.rodape-jogo-menu-botao,
+.rodape-jogo-combate-botao,
+.rodape-jogo-feiticos-botao,
+.rodape-jogo-bolsa-botao {
     width: calc(50% - 4px);
     height: 50px;
     border: 2px solid var(--cor-secundaria);
