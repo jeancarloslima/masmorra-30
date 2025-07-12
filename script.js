@@ -190,10 +190,10 @@ function Inimigo(nome) {
 
     this.atualizar = function () {
         const vidaInimigoCampo = document.getElementById("vida-inimigo");
-        const vidaInimigoRestatne = document.getElementById("vida-restante-inimigo");
+        const vidaInimigoRestante = document.getElementById("vida-restante-inimigo");
 
         vidaInimigoCampo.textContent = `${this.vidaAtual} / ${this.vidaTotal}`;
-        vidaInimigoRestatne.style.width = `${((this.vidaAtual / this.vidaTotal) * 10) * 20}px`;
+        vidaInimigoRestante.style.width = `${((this.vidaAtual / this.vidaTotal) * 10) * 20}px`;
 
         if (this.vidaAtual <= 0) {
             this.morrer();
@@ -201,6 +201,12 @@ function Inimigo(nome) {
     }
 
     this.morrer = function () {
+        const vidaInimigoCampo = document.getElementById("vida-inimigo");
+        const vidaInimigoRestante = document.getElementById("vida-restante-inimigo");
+
+        vidaInimigoCampo.textContent = `0 / ${this.vidaTotal}`;
+        vidaInimigoRestante.style.width = "0px";
+
         setTimeout(() => {
             delete inimigo;
             containerInimigo.innerHTML = "";
@@ -280,7 +286,7 @@ function verificaInimigos() {
 
         inimigos = 5;
         elementoNumeroInimigos.textContent = `${inimigos}/5`;
-        
+
         passaDia();
         geraNovoInimigo();
     }
