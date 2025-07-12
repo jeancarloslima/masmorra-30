@@ -10,6 +10,7 @@ const botaoAvancaTela2 = document.getElementById("avanca-tela2");
 const elementoNumeroDias = document.getElementById("numero-dias");
 const elementoNumeroInimigos = document.getElementById("numero-inimigos");
 const containerInimigo = document.getElementById("inimigo");
+const imagemJogador = document.getElementById("imagem-jogador");
 const nomeJogadorCampo = document.getElementById("nome-jogador");
 const vidaJogadorRestante = document.getElementById("vida-restante-jogador");
 const vidaJogadorCampo = document.getElementById("vida-jogador");
@@ -30,7 +31,7 @@ let inimigo;
 let inimigos = 5;
 let jogador;
 let nome;
-let classe;
+let classe = "guerreiro";
 
 inputNome.addEventListener("input", () => {
     if (inputNome.value !== "") {
@@ -113,8 +114,8 @@ function constroiJogador() {
         classe,
         vidaTotal: 20,
         vidaAtual: 20,
-        forca: 8,
-        magia: 2,
+        forca: 5,
+        magia: 5,
         velocidade: 7,
         armadura: 10,
         experiencia: 0,
@@ -163,6 +164,20 @@ function constroiJogador() {
 
     nomeJogadorCampo.textContent = nome;
     jogador.atualizar();
+
+    switch (classe) {
+        case "guerreiro":
+            jogador.forca += 3;
+            break;
+        case "mago":
+            jogador.magia += 7;
+            imagemJogador.src = "images/mago.png";
+            break;
+        case "arqueiro":
+            jogador.forca += 6;
+            imagemJogador.src = "images/arqueiro.png";
+            break;
+    }
 }
 
 function Inimigo(nome) {
@@ -266,9 +281,18 @@ function constroiInimigo() {
     numeroVidaElemento.textContent = `${inimigo.vidaAtual} / ${inimigo.vidaTotal}`;
 
     const imagemInimigo = document.createElement("img");
-    imagemInimigo.src = "images/cavaleiro.png";
     imagemInimigo.alt = "Imagem de um inimigo";
     imagemInimigo.classList.add("imagem-personagem");
+    imagemInimigo.id = "imagem-inimigo";
+
+    switch (inimigo.nome) {
+        case "ladrão":
+            imagemInimigo.src = "images/ladrao.png";
+            break;
+        case "morcego":
+            imagemInimigo.src = "images/morcego.png";
+            break;
+    }
 
     barraDeVida.appendChild(vidaRestante);
     containerBarraDeVida.append(barraDeVida, numeroVidaElemento);
@@ -289,7 +313,7 @@ function verificaInimigos() {
         inimigos--;
         elementoNumeroInimigos.textContent = `${inimigos}/5`;
         geraNovoInimigo();
-    } else {
+    } else if (jogador.vidaAtual > 0) {
         telaJogo.style.display = "none";
         telaDorme.style.display = "flex";
 
@@ -307,7 +331,12 @@ function passaDia() {
         elementoNumeroDias.textContent = `${dias} dias`;
     }
 
-    jogador.vidaAtual = jogador.vidaTotal;
+    jogador.vidaAtual += 10;
+
+    if (jogador.vidaAtual > jogador.vidaTotal) {
+        jogador.vidaAtual = jogador.vidaTotal;
+    };
+
     jogador.atualizar();
 
     const menus = [rodapeMenuCombate, rodapeMenuFeiticos, rodapeMenuBolsa];
