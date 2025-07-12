@@ -50,17 +50,22 @@ section {
     height: 100%;
 }
 
-/* #tela-jogo {
+/* #tela-morte {
     display: flex;
 } */
 
-#tela-escolher-nome {
+#tela-jogo {
     display: flex;
 }
 
+/* #tela-escolher-nome {
+    display: flex;
+} */
+
 #tela-escolher-nome,
 #tela-escolher-classe,
-#tela-jogo {
+#tela-jogo,
+#tela-morte {
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
@@ -70,7 +75,8 @@ section {
 
 #tela-escolher-nome::before,
 #tela-escolher-classe::before,
-#tela-jogo::before {
+#tela-jogo::before,
+#tela-morte::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -80,7 +86,8 @@ section {
 }
 
 #tela-escolher-nome span,
-#tela-escolher-classe span {
+#tela-escolher-classe span,
+#tela-morte span {
     font-size: 2rem;
 }
 

@@ -1,6 +1,7 @@
 const telaEscolherNome = document.getElementById("tela-escolher-nome");
 const telaEscolherClasse = document.getElementById("tela-escolher-classe");
 const telaJogo = document.getElementById("tela-jogo");
+const telaMorte = document.getElementById("tela-morte");
 const inputNome = document.getElementById("nome");
 const botaoAvancaTela1 = document.getElementById("avanca-tela1");
 const botoesEscolherClasse = document.querySelectorAll(".tela-escolher-classe-botao");
@@ -19,7 +20,9 @@ const botaoAbreBolsa = document.getElementById("btn-abre-bolsa");
 const botaoFoge = document.getElementById("btn-foge");
 const botoesVoltar = document.querySelectorAll(".btn-voltar");
 const botoesCombate = document.querySelectorAll(".rodape-jogo-combate-botao");
+const listaDeInimigos = ["ladrão", "morcego"];
 let dias;
+let inimigo;
 let inimigos;
 let jogador;
 let nome;
@@ -94,17 +97,22 @@ function constroiJogador() {
     jogador = {
         nome,
         classe,
-        vidaTotal: 5,
-        vidaAtual: 5,
-        forca: 7,
-        magia: 5,
-        velocidade: 5,
-        armadura: 5,
+        vidaTotal: 20,
+        vidaAtual: 20,
+        forca: 8,
+        magia: 2,
+        velocidade: 7,
+        armadura: 10,
 
         combate: function (golpe) {
             switch (golpe) {
                 case "espadada":
-                    inimigo.vidaAtual -= (jogador.forca - inimigo.armadura);
+                    const numeroAleatorio = Number((Math.random() + 1).toFixed(1));
+                    const dano = Math.round(this.forca * numeroAleatorio);
+
+                    if (dano >= inimigo.armadura) {
+                        inimigo.vidaAtual -= (dano - inimigo.armadura);
+                    }
 
                     inimigo.atualizar();
                     inimigo.combate();
@@ -115,6 +123,20 @@ function constroiJogador() {
         atualizar: function () {
             vidaJogadorCampo.textContent = `${this.vidaAtual} / ${this.vidaTotal}`;
             vidaJogadorRestante.style.width = `${((this.vidaAtual / this.vidaTotal) * 10) * 20}px`;
+
+            if (this.vidaAtual <= 0) {
+                this.morrer();
+            }
+        },
+
+        morrer: function() {
+            vidaJogadorCampo.textContent = `0 / ${this.vidaTotal}`;
+            vidaJogadorRestante.style.width = "0px";
+
+            setTimeout(() => {
+                telaJogo.style.display = "none";
+            telaMorte.style.display = "flex";
+            }, 1300);
         }
     }
 
@@ -122,11 +144,11 @@ function constroiJogador() {
     jogador.atualizar();
 }
 
-function Inimigo(nome, minVida, maxVida, minDano, maxDano) {
+function Inimigo(nome) {
     this.nome = nome;
-    this.vidaTotal = 5;
-    this.vidaAtual = 5;
-    this.forca = 6;
+    this.vidaTotal = 7;
+    this.vidaAtual = 7;
+    this.forca = 5;
     this.magia = 5;
     this.velocidade = 5;
     this.armadura = 5;
@@ -140,7 +162,12 @@ function Inimigo(nome, minVida, maxVida, minDano, maxDano) {
 
         switch (golpe) {
             case "espadada":
-                jogador.vidaAtual -= (inimigo.forca - jogador.armadura);
+                const numeroAleatorio = Number((Math.random() + 1).toFixed(1));
+                const dano = Math.round(this.forca * numeroAleatorio);
+
+                if (dano >= jogador.armadura) {
+                    jogador.vidaAtual -= (dano - jogador.armadura);
+                }
 
                 jogador.atualizar();
                 break;
@@ -154,6 +181,23 @@ function Inimigo(nome, minVida, maxVida, minDano, maxDano) {
         vidaInimigoCampo.textContent = `${this.vidaAtual} / ${this.vidaTotal}`;
         vidaInimigoRestatne.style.width = `${((this.vidaAtual / this.vidaTotal) * 10) * 20}px`;
     }
+
+    let multiplicador;
+
+    switch (nome) {
+        case "ladrão": 
+            multiplicador = 5;
+            this.forca += 3;
+            break;
+        case "morcego":
+            multiplicador = 3;
+            break;
+    }
+
+    const numeroAleatorio = Math.floor(Math.random() * multiplicador);
+    
+    this.vidaAtual += numeroAleatorio;
+    this.vidaTotal += numeroAleatorio;
 }
 
 function constroiInimigo() {
@@ -190,5 +234,11 @@ function constroiInimigo() {
     containerInimigo.append(nomeInimigo, containerBarraDeVida, imagemInimigo);
 }
 
-const inimigo = new Inimigo("Lucas");
-inimigo.constroi();
+function geraNovoInimigo() {
+    const numeroAleatorio = Math.floor(Math.random() * listaDeInimigos.length);
+    const inimigoEscolhido = listaDeInimigos[numeroAleatorio];
+    inimigo = new Inimigo(inimigoEscolhido);
+    inimigo.constroi();
+}
+
+geraNovoInimigo();
