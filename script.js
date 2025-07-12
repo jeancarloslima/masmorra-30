@@ -173,9 +173,9 @@ function constroiJogador() {
             jogador.magia += 7;
             imagemJogador.src = "images/mago.png";
             break;
-        case "arqueiro":
+        case "assassino":
             jogador.forca += 6;
-            imagemJogador.src = "images/arqueiro.png";
+            imagemJogador.src = "images/assassino.png";
             break;
     }
 }
