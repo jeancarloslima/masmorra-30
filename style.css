@@ -54,13 +54,13 @@ section {
     display: flex;
 } */
 
-#tela-jogo {
-    display: flex;
-}
-
-/* #tela-escolher-nome {
+/* #tela-jogo {
     display: flex;
 } */
+
+#tela-escolher-nome {
+    display: flex;
+}
 
 #tela-escolher-nome,
 #tela-escolher-classe,
