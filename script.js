@@ -1,11 +1,14 @@
 const telaEscolherNome = document.getElementById("tela-escolher-nome");
 const telaEscolherClasse = document.getElementById("tela-escolher-classe");
 const telaJogo = document.getElementById("tela-jogo");
+const telaDorme = document.getElementById("tela-dorme");
 const telaMorte = document.getElementById("tela-morte");
 const inputNome = document.getElementById("nome");
 const botaoAvancaTela1 = document.getElementById("avanca-tela1");
 const botoesEscolherClasse = document.querySelectorAll(".tela-escolher-classe-botao");
 const botaoAvancaTela2 = document.getElementById("avanca-tela2");
+const elementoNumeroDias = document.getElementById("numero-dias");
+const elementoNumeroInimigos = document.getElementById("numero-inimigos");
 const containerInimigo = document.getElementById("inimigo");
 const nomeJogadorCampo = document.getElementById("nome-jogador");
 const vidaJogadorRestante = document.getElementById("vida-restante-jogador");
@@ -21,9 +24,9 @@ const botaoFoge = document.getElementById("btn-foge");
 const botoesVoltar = document.querySelectorAll(".btn-voltar");
 const botoesCombate = document.querySelectorAll(".rodape-jogo-combate-botao");
 const listaDeInimigos = ["ladrão", "morcego"];
-let dias;
+let dias = 30;
 let inimigo;
-let inimigos;
+let inimigos = 5;
 let jogador;
 let nome;
 let classe;
@@ -79,6 +82,12 @@ botaoAbreBolsa.addEventListener("click", () => {
     rodapeMenuBolsa.style.display = "flex";
 })
 
+botaoFoge.addEventListener("click", () => {
+    delete inimigo;
+    containerInimigo.innerHTML = "";
+    verificaInimigos();
+})
+
 botoesVoltar.forEach((botao) => {
     botao.addEventListener("click", () => {
         botao.parentElement.style.display = "none";
@@ -88,7 +97,11 @@ botoesVoltar.forEach((botao) => {
 
 botoesCombate.forEach((botao) => {
     botao.addEventListener("click", () => {
-        jogador.combate(botao.textContent);
+        const nomeGolpe = botao.querySelector(".nome-golpe");
+
+        if (nomeGolpe) {
+            jogador.combate(nomeGolpe.textContent);
+        };
     })
 })
 
@@ -103,6 +116,7 @@ function constroiJogador() {
         magia: 2,
         velocidade: 7,
         armadura: 10,
+        experiencia: 0,
 
         combate: function (golpe) {
             switch (golpe) {
@@ -129,13 +143,13 @@ function constroiJogador() {
             }
         },
 
-        morrer: function() {
+        morrer: function () {
             vidaJogadorCampo.textContent = `0 / ${this.vidaTotal}`;
             vidaJogadorRestante.style.width = "0px";
 
             setTimeout(() => {
                 telaJogo.style.display = "none";
-            telaMorte.style.display = "flex";
+                telaMorte.style.display = "flex";
             }, 1300);
         }
     }
@@ -148,7 +162,7 @@ function Inimigo(nome) {
     this.nome = nome;
     this.vidaTotal = 7;
     this.vidaAtual = 7;
-    this.forca = 5;
+    this.forca = 6;
     this.magia = 5;
     this.velocidade = 5;
     this.armadura = 5;
@@ -180,12 +194,24 @@ function Inimigo(nome) {
 
         vidaInimigoCampo.textContent = `${this.vidaAtual} / ${this.vidaTotal}`;
         vidaInimigoRestatne.style.width = `${((this.vidaAtual / this.vidaTotal) * 10) * 20}px`;
+
+        if (this.vidaAtual <= 0) {
+            this.morrer();
+        }
+    }
+
+    this.morrer = function () {
+        setTimeout(() => {
+            delete inimigo;
+            containerInimigo.innerHTML = "";
+            verificaInimigos();
+        }, 1000);
     }
 
     let multiplicador;
 
     switch (nome) {
-        case "ladrão": 
+        case "ladrão":
             multiplicador = 5;
             this.forca += 3;
             break;
@@ -195,7 +221,7 @@ function Inimigo(nome) {
     }
 
     const numeroAleatorio = Math.floor(Math.random() * multiplicador);
-    
+
     this.vidaAtual += numeroAleatorio;
     this.vidaTotal += numeroAleatorio;
 }
@@ -242,3 +268,32 @@ function geraNovoInimigo() {
 }
 
 geraNovoInimigo();
+
+function verificaInimigos() {
+    if (inimigos > 1) {
+        inimigos--;
+        elementoNumeroInimigos.textContent = `${inimigos}/5`;
+        geraNovoInimigo();
+    } else {
+        telaJogo.style.display = "none";
+        telaDorme.style.display = "flex";
+
+        inimigos = 5;
+        elementoNumeroInimigos.textContent = `${inimigos}/5`;
+        
+        passaDia();
+        geraNovoInimigo();
+    }
+}
+
+function passaDia() {
+    if (dias > 1) {
+        dias--;
+        elementoNumeroDias.textContent = `${dias} dias`;
+    }
+
+    setTimeout(() => {
+        telaJogo.style.display = "flex";
+        telaDorme.style.display = "none";
+    }, 2000);
+}
