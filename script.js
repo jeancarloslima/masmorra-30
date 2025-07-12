@@ -13,6 +13,7 @@ const containerInimigo = document.getElementById("inimigo");
 const nomeJogadorCampo = document.getElementById("nome-jogador");
 const vidaJogadorRestante = document.getElementById("vida-restante-jogador");
 const vidaJogadorCampo = document.getElementById("vida-jogador");
+const rodapeJogo = document.getElementById("rodape-jogo");
 const rodapeMenu = document.getElementById("rodape-jogo-menu");
 const rodapeMenuCombate = document.getElementById("rodape-jogo-combate");
 const rodapeMenuFeiticos = document.getElementById("rodape-jogo-feiticos");
@@ -119,6 +120,12 @@ function constroiJogador() {
         experiencia: 0,
 
         combate: function (golpe) {
+            rodapeJogo.style.pointerEvents = "none";
+
+            setTimeout(() => {
+                rodapeJogo.style.pointerEvents = "all";
+            }, 1000);
+            
             switch (golpe) {
                 case "espadada":
                     const numeroAleatorio = Number((Math.random() + 1).toFixed(1));
@@ -150,7 +157,7 @@ function constroiJogador() {
             setTimeout(() => {
                 telaJogo.style.display = "none";
                 telaMorte.style.display = "flex";
-            }, 1300);
+            }, 1000);
         }
     }
 
@@ -201,17 +208,19 @@ function Inimigo(nome) {
     }
 
     this.morrer = function () {
-        const vidaInimigoCampo = document.getElementById("vida-inimigo");
-        const vidaInimigoRestante = document.getElementById("vida-restante-inimigo");
+        if (jogador.vidaAtual > 0) {
+            const vidaInimigoCampo = document.getElementById("vida-inimigo");
+            const vidaInimigoRestante = document.getElementById("vida-restante-inimigo");
 
-        vidaInimigoCampo.textContent = `0 / ${this.vidaTotal}`;
-        vidaInimigoRestante.style.width = "0px";
+            vidaInimigoCampo.textContent = `0 / ${this.vidaTotal}`;
+            vidaInimigoRestante.style.width = "0px";
 
-        setTimeout(() => {
-            delete inimigo;
-            containerInimigo.innerHTML = "";
-            verificaInimigos();
-        }, 1000);
+            setTimeout(() => {
+                delete inimigo;
+                containerInimigo.innerHTML = "";
+                verificaInimigos();
+            }, 1000);
+        };
     }
 
     let multiplicador;
@@ -297,6 +306,9 @@ function passaDia() {
         dias--;
         elementoNumeroDias.textContent = `${dias} dias`;
     }
+
+    jogador.vidaAtual = jogador.vidaTotal;
+    jogador.atualizar();
 
     setTimeout(() => {
         telaJogo.style.display = "flex";
