@@ -125,7 +125,7 @@ function constroiJogador() {
             setTimeout(() => {
                 rodapeJogo.style.pointerEvents = "all";
             }, 1000);
-            
+
             switch (golpe) {
                 case "espadada":
                     const numeroAleatorio = Number((Math.random() + 1).toFixed(1));
@@ -310,6 +310,13 @@ function passaDia() {
     jogador.vidaAtual = jogador.vidaTotal;
     jogador.atualizar();
 
+    const menus = [rodapeMenuCombate, rodapeMenuFeiticos, rodapeMenuBolsa];
+
+    rodapeMenu.style.display = "flex";
+
+    menus.forEach((menu) => {
+        menu.style.display = "none";
+    })
     setTimeout(() => {
         telaJogo.style.display = "flex";
         telaDorme.style.display = "none";
