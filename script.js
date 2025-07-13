@@ -117,7 +117,7 @@ function constroiJogador() {
         forca: 5,
         magia: 5,
         velocidade: 7,
-        armadura: 10,
+        armadura: 7,
         experiencia: 0,
 
         combate: function (golpe) {
@@ -168,6 +168,7 @@ function constroiJogador() {
     switch (classe) {
         case "guerreiro":
             jogador.forca += 3;
+            jogador.armadura += 3;
             break;
         case "mago":
             jogador.magia += 7;
@@ -269,7 +270,7 @@ function constroiInimigo() {
     containerBarraDeVida.id = "barra-de-vida-inimigo";
 
     const barraDeVida = document.createElement("div");
-    barraDeVida.classList.add("barra-de-vida");
+    barraDeVida.classList.add("barras");
 
     const vidaRestante = document.createElement("div");
     vidaRestante.classList.add("vida-restante");

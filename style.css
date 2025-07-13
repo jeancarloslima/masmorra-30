@@ -5,6 +5,9 @@
     --cor-principal: #FFF;
     --cor-secundaria: #000;
     --cor-terciaria: #bebaba;
+    --cor-vida: #fd2121;
+    --cor-mana: #2c2cf0;
+    --cor-cura: #26bd26;
     /* Fontes */
     --fonte-principal: "Silkscreen", sans-serif;
     /* Configurações */
@@ -54,13 +57,13 @@ section {
     display: flex;
 } */
 
-/* #tela-jogo {
-    display: flex;
-} */
-
-#tela-escolher-nome {
+#tela-jogo {
     display: flex;
 }
+
+/* #tela-escolher-nome {
+    display: flex;
+} */
 
 #tela-escolher-nome,
 #tela-escolher-classe,
@@ -172,7 +175,7 @@ section {
     gap: .6rem;
 }
 
-.barra-de-vida {
+.barras {
     width: 220px;
     height: 25px;
     background-color: var(--cor-terciaria);
@@ -180,14 +183,28 @@ section {
     margin-bottom: .8rem;
 }
 
-.vida-restante {
+.vida-restante,
+.mana-restante {
     width: 200px;
-    height: 15px;
-    top: 50%;
-    left: 10px;
-    background-color: red;
+    height: 7px;
     position: absolute;
     transition: .3s;
+}
+
+.vida-restante {
+    top: 5px;
+    left: 10px;
+    background-color: var(--cor-vida);
+}
+
+.mana-restante {
+    top: 15px;
+    left: 10px;
+    background-color: var(--cor-mana);
+}
+
+#vida-restante-inimigo {
+    top: 50%;
     transform: translateY(-50%);
 }
 
@@ -199,6 +216,49 @@ section {
     height: 25%;
     display: flex;
     justify-content: center;
+    position: relative;
+}
+
+#status-jogador {
+    width: calc(100% - 2px);
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    position: absolute;
+    font-size: .9rem;
+    bottom: 108px;
+    background-color: var(--cor-terciaria);
+    border: 1px solid var(--cor-secundaria);
+}
+
+#container-experiencia {
+    display: flex;
+    gap: 1rem;
+}
+
+#nivel {
+    color: var(--cor-principal);
+}
+
+#barra-experiencia {
+    width: 120px;
+    height: 15px;
+    background-color: var(--cor-principal);
+    position: relative;
+}
+
+#experiencia-atual {
+    width: 0px;
+    height: 15px;
+    position: absolute;
+    background-color: var(--cor-secundaria);
+    transition: .3s;
+}
+
+#numero-mana {
+    color: var(--cor-mana);
 }
 
 #rodape-jogo-menu,
@@ -229,17 +289,33 @@ section {
 }
 
 .numero-de-usos,
-.dano-do-golpe {
+.dano-do-golpe,
+.gasto-de-mana,
+.efeito-feitico,
+.quantidade-item,
+.efeito-item {
     position: absolute;
     font-size: .8rem;
 }
 
-.numero-de-usos {
+.numero-de-usos,
+.gasto-de-mana,
+.quantidade-item {
     right: 3px;
     top: -12px;
 }
 
-.dano-do-golpe {
+.dano-do-golpe,
+.efeito-feitico,
+.efeito-item {
     right: 2px;
     bottom: -15px;
+}
+
+.dano-do-golpe {
+    color: var(--cor-vida);
+}
+
+.gasto-de-mana {
+    color: var(--cor-mana);
 }

@@ -41,8 +41,9 @@
                     <div id="jogador">
                         <img src="images/cavaleiro.png" alt="Imagem do seu personagem" class="imagem-personagem" id="imagem-jogador">
                         <div class="barra-de-vida-container" id="barra-de-vida-jogador">
-                            <div class="barra-de-vida">
+                            <div class="barras">
                                 <div class="vida-restante" id="vida-restante-jogador"></div>
+                                <div class="mana-restante" id="mana-restante-jogador"></div>
                             </div>
                             <span class="numero-vida" id="vida-jogador">50 / 50</span>
                         </div>
@@ -51,6 +52,17 @@
                 </main>
 
                 <footer id="rodape-jogo">
+                    <div id="status-jogador">
+                        <div id="container-experiencia">
+                            <span id="nivel">lv. 1</span>
+                            <div id="barra-experiencia">
+                                <div id="experiencia-atual"></div>
+                            </div>
+                            <div id="numero-experiencia">0/100</div>
+                        </div>
+                        <span id="numero-mana">20/20</span>
+                    </div>
+
                     <ul id="rodape-jogo-menu">
                         <li class="rodape-jogo-menu-botao" id="btn-abre-combate">Combate</li>
                         <li class="rodape-jogo-menu-botao" id="btn-abre-feiticos">Feitiços</li>
@@ -70,14 +82,22 @@
                     </ul>
 
                     <ul id="rodape-jogo-feiticos">
-                        <li class="rodape-jogo-feiticos-botao">cura</li>
+                        <li class="rodape-jogo-feiticos-botao">
+                            <span class="nome-feitico">cura</span>
+                            <span class="gasto-de-mana">10</span>
+                            <span class="efeito-feitico">+7</span>
+                        </li>
                         <li class="rodape-jogo-feiticos-botao"></li>
                         <li class="rodape-jogo-feiticos-botao"></li>
                         <li class="rodape-jogo-feiticos-botao btn-voltar">Voltar</li>
                     </ul>
 
                     <ul id="rodape-jogo-bolsa">
-                        <li class="rodape-jogo-bolsa-botao">poção Vida</li>
+                        <li class="rodape-jogo-bolsa-botao">
+                            <span class="nome-item">poção vida</span>
+                            <span class="quantidade-item">2</span>
+                            <span class="efeito-item">+10</span>
+                        </li>
                         <li class="rodape-jogo-bolsa-botao"></li>
                         <li class="rodape-jogo-bolsa-botao"></li>
                         <li class="rodape-jogo-bolsa-botao btn-voltar">Voltar</li>
