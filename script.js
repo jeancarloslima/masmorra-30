@@ -139,12 +139,26 @@ function constroiJogador() {
                     const numeroAleatorio = Number((Math.random() + 1).toFixed(1));
                     const dano = Math.round(this.forca * numeroAleatorio);
 
-                    if (dano >= inimigo.armadura) {
-                        inimigo.vidaAtual -= (dano - inimigo.armadura);
-                    }
+                    if (this.velocidade > inimigo.velocidade) {
+                        if (dano >= inimigo.armadura) {
+                            inimigo.vidaAtual -= (dano - inimigo.armadura);
 
-                    inimigo.atualizar();
-                    inimigo.combate();
+                            inimigo.atualizar();
+                        }
+
+                        inimigo.combate();
+                    } else {
+                        inimigo.combate();
+
+                        if (this.vidaAtual > 0) {
+                            if (dano >= inimigo.armadura) {
+                                inimigo.vidaAtual -= (dano - inimigo.armadura);
+
+                                inimigo.atualizar();
+                            }
+                        }
+                    };
+
                     break;
             }
         },
@@ -203,17 +217,19 @@ function Inimigo(nome) {
     this.combate = function () {
         let golpe = "espadada";
 
-        switch (golpe) {
-            case "espadada":
-                const numeroAleatorio = Number((Math.random() + 1).toFixed(1));
-                const dano = Math.round(this.forca * numeroAleatorio);
+        if (this.vidaAtual > 0) {
+            switch (golpe) {
+                case "espadada":
+                    const numeroAleatorio = Number((Math.random() + 1).toFixed(1));
+                    const dano = Math.round(this.forca * numeroAleatorio);
 
-                if (dano >= jogador.armadura) {
-                    jogador.vidaAtual -= (dano - jogador.armadura);
-                }
+                    if (dano >= jogador.armadura) {
+                        jogador.vidaAtual -= (dano - jogador.armadura);
+                    }
 
-                jogador.atualizar();
-                break;
+                    jogador.atualizar();
+                    break;
+            }
         }
     }
 
@@ -255,6 +271,7 @@ function Inimigo(nome) {
             break;
         case "morcego":
             multiplicador = 3;
+            this.velocidade += 4;
             break;
     }
 

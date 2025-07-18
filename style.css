@@ -41,7 +41,7 @@ button {
     flex-direction: column;
     justify-content: center;
     width: min(100%, 400px);
-    height: max(100dvh, 700px);
+    height: max(100dvh, 650px);
     margin: auto;
     text-align: center;
     overflow-x: hidden;
@@ -57,13 +57,13 @@ section {
     display: flex;
 } */
 
-/* #tela-jogo {
-    display: flex;
-} */
-
-#tela-escolher-nome {
+#tela-jogo {
     display: flex;
 }
+
+/* #tela-escolher-nome {
+    display: flex;
+} */
 
 #tela-escolher-nome,
 #tela-escolher-classe,
