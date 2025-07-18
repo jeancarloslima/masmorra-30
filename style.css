@@ -41,7 +41,7 @@ button {
     flex-direction: column;
     justify-content: center;
     width: min(100%, 400px);
-    height: max(100dvh, 600px);
+    height: max(100dvh, 700px);
     margin: auto;
     text-align: center;
     overflow-x: hidden;
@@ -57,13 +57,13 @@ section {
     display: flex;
 } */
 
-/* #tela-jogo {
-    display: flex;
-} */
-
-#tela-escolher-nome {
+#tela-jogo {
     display: flex;
 }
+
+/* #tela-escolher-nome {
+    display: flex;
+} */
 
 #tela-escolher-nome,
 #tela-escolher-classe,
@@ -148,6 +148,24 @@ section {
 
 #cabecalho-jogo {
     height: 10%;
+    position: relative;
+}
+
+#lista-notificacoes {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+#lista-notificacoes li {
+    width: 70%;
+    background-color: var(--cor-principal);
+    padding: 1.5rem;
+    border-radius: 16px;
 }
 
 #numero-dias,
@@ -243,7 +261,7 @@ section {
 }
 
 #barra-experiencia {
-    width: 120px;
+    width: 100px;
     height: 15px;
     background-color: var(--cor-principal);
     position: relative;
@@ -255,6 +273,10 @@ section {
     position: absolute;
     background-color: var(--cor-secundaria);
     transition: .3s;
+}
+
+#numero-experiencia {
+    width: 72px;
 }
 
 #numero-mana {

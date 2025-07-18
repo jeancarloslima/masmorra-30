@@ -7,6 +7,7 @@ const inputNome = document.getElementById("nome");
 const botaoAvancaTela1 = document.getElementById("avanca-tela1");
 const botoesEscolherClasse = document.querySelectorAll(".tela-escolher-classe-botao");
 const botaoAvancaTela2 = document.getElementById("avanca-tela2");
+const listaNotificacoes = document.getElementById("lista-notificacoes");
 const elementoNumeroDias = document.getElementById("numero-dias");
 const elementoNumeroInimigos = document.getElementById("numero-inimigos");
 const containerInimigo = document.getElementById("inimigo");
@@ -15,6 +16,10 @@ const nomeJogadorCampo = document.getElementById("nome-jogador");
 const vidaJogadorRestante = document.getElementById("vida-restante-jogador");
 const vidaJogadorCampo = document.getElementById("vida-jogador");
 const rodapeJogo = document.getElementById("rodape-jogo");
+const textoNivel = document.getElementById("nivel");
+const experienciaAtual = document.getElementById("experiencia-atual");
+const numeroExperiencia = document.getElementById("numero-experiencia");
+const numeroMana = document.getElementById("numero-mana");
 const rodapeMenu = document.getElementById("rodape-jogo-menu");
 const rodapeMenuCombate = document.getElementById("rodape-jogo-combate");
 const rodapeMenuFeiticos = document.getElementById("rodape-jogo-feiticos");
@@ -32,6 +37,7 @@ let inimigos = 5;
 let jogador;
 let nome;
 let classe = "guerreiro";
+let experienciaNecessaria = 100;
 
 inputNome.addEventListener("input", () => {
     if (inputNome.value !== "") {
@@ -119,6 +125,7 @@ function constroiJogador() {
         velocidade: 7,
         armadura: 7,
         experiencia: 0,
+        nivel: 1,
 
         combate: function (golpe) {
             rodapeJogo.style.pointerEvents = "none";
@@ -186,7 +193,6 @@ function Inimigo(nome) {
     this.vidaTotal = 7;
     this.vidaAtual = 7;
     this.forca = 6;
-    this.magia = 5;
     this.velocidade = 5;
     this.armadura = 5;
 
@@ -232,9 +238,10 @@ function Inimigo(nome) {
             vidaInimigoRestante.style.width = "0px";
 
             setTimeout(() => {
-                delete inimigo;
                 containerInimigo.innerHTML = "";
+                aumentaExperiencia(this);
                 verificaInimigos();
+                delete inimigo;
             }, 1000);
         };
     }
@@ -308,6 +315,63 @@ function geraNovoInimigo() {
 }
 
 geraNovoInimigo();
+
+function aumentaExperiencia(inimigo) {
+    const experienciaGanha = inimigo.forca + inimigo.velocidade + inimigo.armadura + inimigo.vidaTotal;
+
+    jogador.experiencia += experienciaGanha;
+
+    if (jogador.experiencia < experienciaNecessaria) {
+        numeroExperiencia.textContent = `${jogador.experiencia}/${experienciaNecessaria}`;
+        experienciaAtual.style.width = `${(jogador.experiencia / experienciaNecessaria) * 100}px`;
+    } else {
+        sobeNivel();
+    }
+}
+
+function sobeNivel() {
+    experienciaNecessaria += 20;
+    jogador.experiencia = 0;
+    jogador.nivel++;
+    textoNivel.textContent = "lv. " + jogador.nivel;
+    numeroExperiencia.textContent = `0/${experienciaNecessaria}`;
+    experienciaAtual.style.width = "0px";
+
+    const notificacao = document.createElement("li");
+
+    if (jogador.classe === "guerreiro") {
+        jogador.forca += 1;
+        jogador.armadura += 1;
+        jogador.vidaAtual += 2;
+        jogador.vidaTotal += 2;
+        jogador.atualizar();
+
+        notificacao.textContent = "FOR +1, ARM +1, VIDA +2";
+    } else if (jogador.classe === "mago") {
+        jogador.magia += 2;
+        jogador.velocidade += 1;
+        jogador.vidaAtual += 2;
+        jogador.vidaTotal += 2;
+        jogador.atualizar();
+
+        notificacao.textContent = "MAG +2, VEL +1, VIDA +2";
+    } else {
+        jogador.forca += 1;
+        jogador.armadura += 1;
+        jogador.velocidade += 1;
+        jogador.vidaAtual += 1;
+        jogador.vidaTotal += 1;
+        jogador.atualizar();
+
+        notificacao.textContent = "FOR +1, ARM +1, VEL +1, VIDA +1";
+    }
+
+    listaNotificacoes.appendChild(notificacao);
+
+    setTimeout(() => {
+        notificacao.remove();
+    }, 2000);
+}
 
 function verificaInimigos() {
     if (inimigos > 1) {
