@@ -41,6 +41,10 @@ let nome;
 let classe = "guerreiro";
 let experienciaNecessaria = 100;
 
+const musica = new Audio("./audios/8-bit-dungeon-251388.mp3");
+musica.loop = true;
+musica.play();
+
 inputNome.addEventListener("input", () => {
     if (inputNome.value !== "") {
         botaoAvancaTela1.style.pointerEvents = "all";
@@ -404,17 +408,21 @@ function sobeNivel() {
         jogador.armadura += 1;
         jogador.vidaAtual += 2;
         jogador.vidaTotal += 2;
+        jogador.manaAtual += 1;
+        jogador.manaTotal += 1;
         jogador.atualizar();
 
-        notificacao.textContent = "FOR +1, ARM +1, VIDA +2";
+        notificacao.textContent = "FOR +1, ARM +1, VIDA +2, MANA +1";
     } else if (jogador.classe === "mago") {
         jogador.magia += 2;
         jogador.velocidade += 1;
         jogador.vidaAtual += 2;
         jogador.vidaTotal += 2;
+        jogador.manaAtual += 3;
+        jogador.manaTotal += 3;
         jogador.atualizar();
 
-        notificacao.textContent = "MAG +2, VEL +1, VIDA +2";
+        notificacao.textContent = "MAG +2, VEL +1, VIDA +2, MANA +3";
     } else {
         jogador.forca += 1;
         jogador.armadura += 1;
