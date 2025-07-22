@@ -57,13 +57,13 @@ section {
     display: flex;
 } */
 
-/* #tela-jogo {
-    display: flex;
-} */
-
-#tela-escolher-nome {
+#tela-jogo {
     display: flex;
 }
+
+/* #tela-escolher-nome {
+    display: flex;
+} */
 
 #tela-escolher-nome,
 #tela-escolher-classe,
@@ -280,6 +280,7 @@ section {
 }
 
 #numero-mana {
+    min-width: 52px;
     color: var(--cor-mana);
 }
 

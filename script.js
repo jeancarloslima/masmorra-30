@@ -14,6 +14,7 @@ const containerInimigo = document.getElementById("inimigo");
 const imagemJogador = document.getElementById("imagem-jogador");
 const nomeJogadorCampo = document.getElementById("nome-jogador");
 const vidaJogadorRestante = document.getElementById("vida-restante-jogador");
+const manaJogadorRestante = document.getElementById("mana-restante-jogador");
 const vidaJogadorCampo = document.getElementById("vida-jogador");
 const rodapeJogo = document.getElementById("rodape-jogo");
 const textoNivel = document.getElementById("nivel");
@@ -30,6 +31,7 @@ const botaoAbreBolsa = document.getElementById("btn-abre-bolsa");
 const botaoFoge = document.getElementById("btn-foge");
 const botoesVoltar = document.querySelectorAll(".btn-voltar");
 const botoesCombate = document.querySelectorAll(".rodape-jogo-combate-botao");
+const botoesFeiticos = document.querySelectorAll(".rodape-jogo-feiticos-botao");
 const listaDeInimigos = ["ladrão", "morcego"];
 let dias = 30;
 let inimigo;
@@ -111,7 +113,19 @@ botoesCombate.forEach((botao) => {
             jogador.combate(nomeGolpe.textContent);
         };
     })
-})
+});
+
+botoesFeiticos.forEach((botao) => {
+    botao.addEventListener("click", () => {
+        const nomeFeitico = botao.querySelector(".nome-feitico");
+        const custoMana = botao.querySelector(".gasto-de-mana");
+        const efeitoFeitico = botao.querySelector(".efeito-feitico");
+
+        if (nomeFeitico) {
+            jogador.feitico(nomeFeitico.textContent, custoMana.textContent, efeitoFeitico.textContent);
+        }
+    });
+});
 
 constroiJogador();
 function constroiJogador() {
@@ -120,6 +134,8 @@ function constroiJogador() {
         classe,
         vidaTotal: 20,
         vidaAtual: 20,
+        manaTotal: 20,
+        manaAtual: 20,
         forca: 5,
         magia: 5,
         velocidade: 7,
@@ -163,9 +179,36 @@ function constroiJogador() {
             }
         },
 
+        feitico: function (feitico, custoMana, efeito) {
+            rodapeJogo.style.pointerEvents = "none";
+
+            setTimeout(() => {
+                rodapeJogo.style.pointerEvents = "all";
+            }, 1000);
+
+            switch (feitico) {
+                case "cura":
+                    if (Number(custoMana) <= this.manaAtual) {
+                        this.manaAtual -= Number(custoMana);
+                        this.vidaAtual += Number(efeito);
+
+                        if (this.vidaAtual > this.vidaTotal) {
+                            this.vidaAtual = this.vidaTotal;
+                        }
+
+                        jogador.atualizar();
+                    }
+
+                    break;
+            }
+        },
+
         atualizar: function () {
             vidaJogadorCampo.textContent = `${this.vidaAtual} / ${this.vidaTotal}`;
             vidaJogadorRestante.style.width = `${((this.vidaAtual / this.vidaTotal) * 10) * 20}px`;
+
+            numeroMana.textContent = `${this.manaAtual}/${this.manaTotal}` ;
+            manaJogadorRestante.style.width = `${((this.manaAtual / this.manaTotal) * 10) * 20}px`;
 
             if (this.vidaAtual <= 0) {
                 this.morrer();
@@ -189,7 +232,7 @@ function constroiJogador() {
     switch (classe) {
         case "guerreiro":
             jogador.forca += 3;
-            jogador.armadura += 3;
+            jogador.armadura += 1;
             break;
         case "mago":
             jogador.magia += 7;
@@ -414,9 +457,14 @@ function passaDia() {
     }
 
     jogador.vidaAtual += 10;
+    jogador.manaAtual += 3 + jogador.magia;
 
     if (jogador.vidaAtual > jogador.vidaTotal) {
         jogador.vidaAtual = jogador.vidaTotal;
+    };
+
+    if (jogador.manaAtual > jogador.manaTotal) {
+        jogador.manaAtual = jogador.manaTotal
     };
 
     jogador.atualizar();
