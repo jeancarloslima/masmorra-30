@@ -41,9 +41,8 @@ let nome;
 let classe = "guerreiro";
 let experienciaNecessaria = 100;
 
-const musica = new Audio("./audios/8-bit-dungeon-251388.mp3");
-musica.loop = true;
-musica.play();
+const audio = new Audio("audios/8-bit-dungeon-251388.mp3");
+audio.loop = true;
 
 inputNome.addEventListener("input", () => {
     if (inputNome.value !== "") {
@@ -78,6 +77,7 @@ botaoAvancaTela2.addEventListener("click", () => {
     telaEscolherClasse.style.display = "none";
     telaJogo.style.display = "flex";
 
+    audio.play();
     constroiJogador();
 });
 
