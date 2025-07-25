@@ -32,6 +32,7 @@ const botaoFoge = document.getElementById("btn-foge");
 const botoesVoltar = document.querySelectorAll(".btn-voltar");
 const botoesCombate = document.querySelectorAll(".rodape-jogo-combate-botao");
 const botoesFeiticos = document.querySelectorAll(".rodape-jogo-feiticos-botao");
+const botoesBolsa = document.querySelectorAll(".rodape-jogo-bolsa-botao");
 const listaDeInimigos = ["ladrão", "morcego"];
 let dias = 30;
 let inimigo;
@@ -126,10 +127,22 @@ botoesFeiticos.forEach((botao) => {
         const efeitoFeitico = botao.querySelector(".efeito-feitico");
 
         if (nomeFeitico) {
-            jogador.feitico(nomeFeitico.textContent, custoMana.textContent, efeitoFeitico.textContent);
+            jogador.feitico(nomeFeitico.textContent, custoMana.textContent, efeitoFeitico.textContent.replace("+", ""));
         }
     });
 });
+
+botoesBolsa.forEach((botao) => {
+    botao.addEventListener("click", () => {
+        const nomeItem = botao.querySelector(".nome-item");
+        const quantidadeItem = botao.querySelector(".quantidade-item");
+        const efeitoItem = botao.querySelector(".efeito-item");
+
+        if (nomeItem) {
+            jogador.bolsa(nomeItem.textContent, quantidadeItem, efeitoItem.textContent.replace("+", ""));
+        }
+    })
+})
 
 constroiJogador();
 function constroiJogador() {
@@ -199,19 +212,48 @@ function constroiJogador() {
                         if (this.vidaAtual > this.vidaTotal) {
                             this.vidaAtual = this.vidaTotal;
                         }
-
-                        jogador.atualizar();
                     }
 
                     break;
             }
+
+            jogador.atualizar();
+            inimigo.combate();
+        },
+
+        bolsa: function (item, quantidade, efeito) {
+            if (Number(quantidade.textContent) < 1) {
+                return;
+            };
+
+            rodapeJogo.style.pointerEvents = "none";
+
+            setTimeout(() => {
+                rodapeJogo.style.pointerEvents = "all";
+            }, 1000);
+
+
+            switch (item) {
+                case "poção vida":
+                    this.vidaAtual += efeito;
+
+                    if (this.vidaAtual > this.vidaTotal) {
+                        this.vidaAtual = this.vidaTotal;
+                    };
+
+                    quantidade.textContent = Number(quantidade.textContent) - 1;
+                    break;
+            }
+
+            jogador.atualizar();
+            inimigo.combate();
         },
 
         atualizar: function () {
             vidaJogadorCampo.textContent = `${this.vidaAtual} / ${this.vidaTotal}`;
             vidaJogadorRestante.style.width = `${((this.vidaAtual / this.vidaTotal) * 10) * 20}px`;
 
-            numeroMana.textContent = `${this.manaAtual}/${this.manaTotal}` ;
+            numeroMana.textContent = `${this.manaAtual}/${this.manaTotal}`;
             manaJogadorRestante.style.width = `${((this.manaAtual / this.manaTotal) * 10) * 20}px`;
 
             if (this.vidaAtual <= 0) {
