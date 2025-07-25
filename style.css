@@ -228,6 +228,7 @@ section {
 
 .imagem-personagem {
     width: 80px;
+    transition: .3s ease-in-out;
 }
 
 #rodape-jogo {
