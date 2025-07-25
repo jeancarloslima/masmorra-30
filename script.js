@@ -156,7 +156,7 @@ function constroiJogador() {
         forca: 5,
         magia: 5,
         velocidade: 7,
-        armadura: 7,
+        armadura: 5,
         experiencia: 0,
         nivel: 1,
 
@@ -167,29 +167,23 @@ function constroiJogador() {
                 rodapeJogo.style.pointerEvents = "all";
             }, 1000);
 
+            if (this.velocidade < inimigo.velocidade) {
+                inimigo.combate();
+            };
+
             switch (golpe) {
                 case "espadada":
                     const numeroAleatorio = Number((Math.random() + 1).toFixed(1));
                     const dano = Math.round(this.forca * numeroAleatorio);
 
-                    if (this.velocidade > inimigo.velocidade) {
-                        if (dano >= inimigo.armadura) {
-                            inimigo.vidaAtual -= (dano - inimigo.armadura);
+                    if (dano >= inimigo.armadura) {
+                        inimigo.vidaAtual -= (dano - inimigo.armadura);
 
-                            inimigo.atualizar();
-                        }
+                        inimigo.atualizar();
+                    }
 
+                    if (this.velocidade >= inimigo.velocidade) {
                         inimigo.combate();
-                    } else {
-                        inimigo.combate();
-
-                        if (this.vidaAtual > 0) {
-                            if (dano >= inimigo.armadura) {
-                                inimigo.vidaAtual -= (dano - inimigo.armadura);
-
-                                inimigo.atualizar();
-                            }
-                        }
                     };
 
                     break;
@@ -197,6 +191,10 @@ function constroiJogador() {
         },
 
         feitico: function (feitico, custoMana, efeito) {
+            if (Number(custoMana) > this.manaAtual) {
+                return;
+            }
+
             rodapeJogo.style.pointerEvents = "none";
 
             setTimeout(() => {
@@ -205,15 +203,12 @@ function constroiJogador() {
 
             switch (feitico) {
                 case "cura":
-                    if (Number(custoMana) <= this.manaAtual) {
-                        this.manaAtual -= Number(custoMana);
-                        this.vidaAtual += Number(efeito);
+                    this.manaAtual -= Number(custoMana);
+                    this.vidaAtual += Number(efeito);
 
-                        if (this.vidaAtual > this.vidaTotal) {
-                            this.vidaAtual = this.vidaTotal;
-                        }
+                    if (this.vidaAtual > this.vidaTotal) {
+                        this.vidaAtual = this.vidaTotal;
                     }
-
                     break;
             }
 
