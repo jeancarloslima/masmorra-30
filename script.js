@@ -139,7 +139,7 @@ botoesBolsa.forEach((botao) => {
         const efeitoItem = botao.querySelector(".efeito-item");
 
         if (nomeItem) {
-            jogador.bolsa(nomeItem.textContent, quantidadeItem, efeitoItem.textContent.replace("+", ""));
+            jogador.bolsa(nomeItem.textContent, quantidadeItem, Number(efeitoItem.textContent.replace("+", "")));
         }
     })
 })
@@ -240,6 +240,16 @@ function constroiJogador() {
                     };
 
                     quantidade.textContent = Number(quantidade.textContent) - 1;
+                    break;
+                case "poção mana":
+                    this.manaAtual += efeito;
+
+                    if (this.manaAtual > this.manaTotal) {
+                        this.manaAtual = this.manaTotal;
+                    };
+
+                    quantidade.textContent = Number(quantidade.textContent) - 1;
+                    
                     break;
             }
 
