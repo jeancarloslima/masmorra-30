@@ -227,7 +227,8 @@ section {
 }
 
 .imagem-personagem {
-    width: 80px;
+    width: 100px;
+    height: 100px;
     transition: .3s ease-in-out;
 }
 

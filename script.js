@@ -38,7 +38,7 @@ let dias = 30;
 let inimigo;
 let inimigos = 5;
 let jogador;
-let nome;
+let nome = "jogador";
 let classe = "guerreiro";
 let experienciaNecessaria = 100;
 
@@ -181,7 +181,7 @@ function constroiJogador() {
                     if (dano >= inimigo.armadura) {
                         inimigo.vidaAtual -= (dano - inimigo.armadura);
 
-                        inimigo.atualizar();
+                        inimigo.atualizarStatus();
                     }
 
                     if (this.velocidade >= inimigo.velocidade) {
@@ -214,7 +214,7 @@ function constroiJogador() {
                     break;
             }
 
-            jogador.atualizar();
+            jogador.atualizarStatus();
             inimigo.combate();
             animaCombate(feitico);
         },
@@ -253,12 +253,12 @@ function constroiJogador() {
                     break;
             }
 
-            jogador.atualizar();
+            jogador.atualizarStatus();
             inimigo.combate();
             animaCombate(item);
         },
 
-        atualizar: function () {
+        atualizarStatus: function () {
             vidaJogadorCampo.textContent = `${this.vidaAtual} / ${this.vidaTotal}`;
             vidaJogadorRestante.style.width = `${((this.vidaAtual / this.vidaTotal) * 10) * 20}px`;
 
@@ -268,6 +268,40 @@ function constroiJogador() {
             if (this.vidaAtual <= 0) {
                 this.morrer();
             }
+        },
+
+        atualizarAcoes: function () {
+            botoesCombate.forEach((botao) => {
+                const nomeGolpe = botao.querySelector(".nome-golpe");
+
+                if (nomeGolpe) {
+                    const numeroDeUsos = botao.querySelector(".numero-de-usos");
+                    const danoDoGolpe = botao.querySelector(".dano-do-golpe");
+
+                    switch (nomeGolpe.textContent) {
+                        case "espadada":
+                            numeroDeUsos.textContent = "INF";
+                            danoDoGolpe.textContent = `${this.forca} - ${this.forca * 2}`;
+                            break;
+                    };
+                };
+            });
+
+            botoesFeiticos.forEach((botao) => {
+                const nomeFeitico = botao.querySelector(".nome-feitico");
+
+                if (nomeFeitico) {
+                    const gastoDeMana = botao.querySelector(".gasto-de-mana");
+                    const efeitoFeitico = botao.querySelector(".efeito-feitico");
+
+                    switch (nomeFeitico.textContent) {
+                        case "cura":
+                            gastoDeMana.textContent = "10";
+                            efeitoFeitico.textContent = `${this.magia + 2}`;
+                            break;
+                    };
+                };
+            });
         },
 
         morrer: function () {
@@ -282,8 +316,8 @@ function constroiJogador() {
     }
 
     nomeJogadorCampo.textContent = nome;
-    jogador.atualizar();
-
+    jogador.atualizarStatus();
+    
     switch (classe) {
         case "guerreiro":
             jogador.forca += 3;
@@ -295,9 +329,12 @@ function constroiJogador() {
             break;
         case "assassino":
             jogador.forca += 6;
+            jogador.velocidade += 3;
             imagemJogador.src = "images/assassino.png";
             break;
-    }
+    };
+
+    jogador.atualizarAcoes();
 }
 
 function Inimigo(nome) {
@@ -325,13 +362,13 @@ function Inimigo(nome) {
                         jogador.vidaAtual -= (dano - jogador.armadura);
                     }
 
-                    jogador.atualizar();
+                    jogador.atualizarStatus();
                     break;
             }
         }
     }
 
-    this.atualizar = function () {
+    this.atualizarStatus = function () {
         const vidaInimigoCampo = document.getElementById("vida-inimigo");
         const vidaInimigoRestante = document.getElementById("vida-restante-inimigo");
 
@@ -461,7 +498,8 @@ function sobeNivel() {
         jogador.vidaTotal += 2;
         jogador.manaAtual += 1;
         jogador.manaTotal += 1;
-        jogador.atualizar();
+        jogador.atualizarStatus();
+        jogador.atualizarAcoes();
 
         notificacao.textContent = "FOR +1, ARM +1, VIDA +2, MANA +1";
     } else if (jogador.classe === "mago") {
@@ -471,7 +509,8 @@ function sobeNivel() {
         jogador.vidaTotal += 2;
         jogador.manaAtual += 3;
         jogador.manaTotal += 3;
-        jogador.atualizar();
+        jogador.atualizarStatus();
+        jogador.atualizarAcoes();
 
         notificacao.textContent = "MAG +2, VEL +1, VIDA +2, MANA +3";
     } else {
@@ -480,7 +519,8 @@ function sobeNivel() {
         jogador.velocidade += 1;
         jogador.vidaAtual += 1;
         jogador.vidaTotal += 1;
-        jogador.atualizar();
+        jogador.atualizarStatus();
+        jogador.atualizarAcoes();
 
         notificacao.textContent = "FOR +1, ARM +1, VEL +1, VIDA +1";
     }
@@ -526,7 +566,7 @@ function passaDia() {
         jogador.manaAtual = jogador.manaTotal
     };
 
-    jogador.atualizar();
+    jogador.atualizarStatus();
 
     const menus = [rodapeMenuCombate, rodapeMenuFeiticos, rodapeMenuBolsa];
 
