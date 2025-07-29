@@ -208,6 +208,8 @@ function constroiJogador() {
 
                     break;
             };
+            
+            this.atualizarStatus();
         },
 
         feitico: function (feitico, custoMana, efeito) {
