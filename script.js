@@ -39,7 +39,7 @@ let inimigo;
 let inimigos = 5;
 let jogador;
 let nome = "jogador";
-let classe = "guerreiro";
+let classe = "mago";
 let experienciaNecessaria = 100;
 
 const audio = new Audio("audios/8-bit-dungeon-251388.mp3");
@@ -161,6 +161,9 @@ function constroiJogador() {
         nivel: 1,
 
         combate: function (golpe) {
+            const numeroAleatorio = Number((Math.random() + 1).toFixed(1));
+            let dano;
+
             rodapeJogo.style.pointerEvents = "none";
 
             setTimeout(() => {
@@ -175,8 +178,23 @@ function constroiJogador() {
 
             switch (golpe) {
                 case "espadada":
-                    const numeroAleatorio = Number((Math.random() + 1).toFixed(1));
-                    const dano = Math.round(this.forca * numeroAleatorio);
+                case "cajadada":
+                case "facada":
+                    dano = Math.round(this.forca * numeroAleatorio);
+
+                    if (dano >= inimigo.armadura) {
+                        inimigo.vidaAtual -= (dano - inimigo.armadura);
+
+                        inimigo.atualizarStatus();
+                    }
+
+                    if (this.velocidade >= inimigo.velocidade) {
+                        inimigo.combate();
+                    };
+
+                    break;
+                case "raio":
+                    dano = Math.round(this.magia * numeroAleatorio);
 
                     if (dano >= inimigo.armadura) {
                         inimigo.vidaAtual -= (dano - inimigo.armadura);
@@ -212,6 +230,8 @@ function constroiJogador() {
                         this.vidaAtual = this.vidaTotal;
                     }
                     break;
+                case "raio":
+                    this.combate("raio");
             }
 
             jogador.atualizarStatus();
@@ -249,13 +269,27 @@ function constroiJogador() {
                     };
 
                     quantidade.textContent = Number(quantidade.textContent) - 1;
-                    
+
                     break;
             }
 
             jogador.atualizarStatus();
             inimigo.combate();
             animaCombate(item);
+        },
+
+        defineAcoes: function () {
+            switch (this.classe) {
+                case "mago":
+                    botoesCombate[0].querySelector(".nome-golpe").textContent = "cajadada";
+                    botoesFeiticos[1].firstElementChild.classList.add("nome-feitico");
+                    botoesFeiticos[1].querySelector(".nome-feitico").textContent = "raio";
+                    break;
+                case "assassino":
+                    botoesCombate[0].querySelector(".nome-golpe").textContent = "facada";
+                    botoesFeiticos[0].textContent = "";
+                    break;
+            }
         },
 
         atualizarStatus: function () {
@@ -280,6 +314,8 @@ function constroiJogador() {
 
                     switch (nomeGolpe.textContent) {
                         case "espadada":
+                        case "cajadada":
+                        case "facada":
                             numeroDeUsos.textContent = "INF";
                             danoDoGolpe.textContent = `${this.forca} - ${this.forca * 2}`;
                             break;
@@ -299,6 +335,10 @@ function constroiJogador() {
                             gastoDeMana.textContent = "10";
                             efeitoFeitico.textContent = `${this.magia + 2}`;
                             break;
+                        case "raio":
+                            gastoDeMana.textContent = "5";
+                            efeitoFeitico.textContent = `${this.magia} - ${this.magia * 2}`;
+                            break;
                     };
                 };
             });
@@ -316,8 +356,9 @@ function constroiJogador() {
     }
 
     nomeJogadorCampo.textContent = nome;
+    jogador.defineAcoes();
     jogador.atualizarStatus();
-    
+
     switch (classe) {
         case "guerreiro":
             jogador.forca += 3;
