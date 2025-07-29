@@ -231,7 +231,10 @@ function constroiJogador() {
                     }
                     break;
                 case "raio":
+                    this.manaAtual -= Number(custoMana);
+
                     this.combate("raio");
+                    return;
             }
 
             jogador.atualizarStatus();
@@ -626,42 +629,42 @@ function animaCombate(naoCombate) {
     const imagemInimigo = document.getElementById("imagem-inimigo");
 
     if (naoCombate) {
+        console.log("A");
+        
         imagemInimigo.style.transform = "translateY(100px)";
 
         setTimeout(() => {
             imagemInimigo.style.transform = "translateY(0px)";
         }, 400);
+    } else if (jogador.velocidade >= inimigo.velocidade) {
+        imagemJogador.style.transform = "translateY(-100px)";
+
+        setTimeout(() => {
+            imagemJogador.style.transform = "translateY(0px)";
+
+            if (inimigo.vidaAtual > 0) {
+                setTimeout(() => {
+                    imagemInimigo.style.transform = "translateY(100px)";
+                }, 400);
+
+                setTimeout(() => {
+                    imagemInimigo.style.transform = "translateY(0px)";
+                }, 800);
+            }
+        }, 400);
     } else {
-        if (jogador.velocidade >= inimigo.velocidade) {
+        imagemInimigo.style.transform = "translateY(100px)";
+
+        setTimeout(() => {
+            imagemInimigo.style.transform = "translateY(0px)";
+        }, 400);
+
+        setTimeout(() => {
             imagemJogador.style.transform = "translateY(-100px)";
+        }, 600);
 
-            setTimeout(() => {
-                imagemJogador.style.transform = "translateY(0px)";
-
-                if (inimigo.vidaAtual > 0) {
-                    setTimeout(() => {
-                        imagemInimigo.style.transform = "translateY(100px)";
-                    }, 400);
-
-                    setTimeout(() => {
-                        imagemInimigo.style.transform = "translateY(0px)";
-                    }, 800);
-                }
-            }, 400);
-        } else {
-            imagemInimigo.style.transform = "translateY(100px)";
-
-            setTimeout(() => {
-                imagemInimigo.style.transform = "translateY(0px)";
-            }, 400);
-
-            setTimeout(() => {
-                imagemJogador.style.transform = "translateY(-100px)";
-            }, 600);
-
-            setTimeout(() => {
-                imagemJogador.style.transform = "translateY(0px)";
-            }, 1000);
-        };
+        setTimeout(() => {
+            imagemJogador.style.transform = "translateY(0px)";
+        }, 1000);
     };
-}
+};
